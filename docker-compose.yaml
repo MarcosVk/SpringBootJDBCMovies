@@ -3,8 +3,8 @@ services:
     container_name: postgres
     image: postgres
     environment:
-      POSTGRES_USER: amigoscode
-      POSTGRES_PASSWORD: password
+      POSTGRES_USER: vicky
+      POSTGRES_PASSWORD: Vviiggnneesshh@0
       PGDATA: /data/postgres
     volumes:
       - postgres:/data/postgres
