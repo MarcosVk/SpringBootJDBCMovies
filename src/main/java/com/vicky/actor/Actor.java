@@ -1,4 +1,4 @@
-package com.amigoscode.actor;
+package com.vicky.actor;
 
 public record Actor(Integer id, String name) {
 }

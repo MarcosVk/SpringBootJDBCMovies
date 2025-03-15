@@ -1,4 +1,4 @@
-package com.amigoscode.movie;
+package com.vicky.movie;
 
 import java.util.List;
 import java.util.Optional;
