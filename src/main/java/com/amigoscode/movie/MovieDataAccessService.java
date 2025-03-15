@@ -9,6 +9,12 @@ import java.util.Optional;
 @Repository
 public class MovieDataAccessService implements MovieDao {
 
+    private final JdbcTemplate jdbcTemplate;
+
+    public MovieDataAccessService(JdbcTemplate jdbcTemplate) {
+        this.jdbcTemplate = jdbcTemplate;
+    }
+
     @Override
     public List<Movie> selectMovies() {
         throw new UnsupportedOperationException("not implemented");
@@ -16,7 +22,10 @@ public class MovieDataAccessService implements MovieDao {
 
     @Override
     public int insertMovie(Movie movie) {
-        throw new UnsupportedOperationException("not implemented");
+        String sql= """
+                INSERT INTO movie(name,releaseDate) VALUES(?,?)
+                """;
+        return jdbcTemplate.update(sql,movie.name(),movie.releaseDate());
     }
 
     @Override

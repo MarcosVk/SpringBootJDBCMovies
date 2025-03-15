@@ -2,8 +2,8 @@ app:
   datasource:
     main:
       driver-class-name: org.postgresql.Driver
-      jdbc-url: jdbc:postgresql://localhost:5432/Movies
-      password: 'Vviiggnneesshh@0'
+      jdbc-url: jdbc:postgresql://localhost:5432/movies
+      password: 'Vviiggnneesshh'
       pool-size: 30
       username: vicky
 
