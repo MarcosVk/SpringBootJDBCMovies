@@ -34,5 +34,11 @@ public class MovieController {
         movieService.deleteMovie(id);
     }
 
-   // TODO: Update movie
+   @PutMapping("{id}")
+    public void updateMovie(@PathVariable("id") Integer id,
+                            @RequestParam(required = false) String name,
+                            @RequestParam(required = false) String releaseDate){
+        movieService.updateMovie(id,name,releaseDate);
+
+   }
 }
