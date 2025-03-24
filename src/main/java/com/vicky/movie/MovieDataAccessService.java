@@ -1,5 +1,6 @@
 package com.vicky.movie;
 
+import com.vicky.actor.ActorRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Repository;
 
@@ -11,18 +12,22 @@ import java.util.Optional;
 public class MovieDataAccessService implements MovieDao {
 
     private final JdbcTemplate jdbcTemplate;
+    private final ActorRowMapper actorRowMapper;
 
-    public MovieDataAccessService(JdbcTemplate jdbcTemplate) {
+    public MovieDataAccessService(JdbcTemplate jdbcTemplate, ActorRowMapper actorRowMapper) {
         this.jdbcTemplate = jdbcTemplate;
+        this.actorRowMapper = actorRowMapper;
     }
 
     @Override
     public List<Movie> selectMovies() {
         String sql= """
-                Select id,name,releaseDate FROM movie
-                LIMIT 100;
+                SELECT m.id AS movie_id,m.name AS movie_name,m.releaseDate,a.id AS actor_id,a.name AS actor_name,a.movie AS actor_movie_id
+                FROM movie m
+                LEFT JOIN actors a ON m.id=a.movie
+                LIMIT 100
                 """;
-        return jdbcTemplate.query(sql,new MovieRowMapper());
+        return jdbcTemplate.query(sql,new MovieRowMapper(actorRowMapper));
     }
 
     @Override
@@ -44,9 +49,13 @@ public class MovieDataAccessService implements MovieDao {
     @Override
     public Optional<Movie> selectMovieById(int id) {
         String sql= """
-                Select * from movie WHERE id=?;
+                SELECT m.id,m.name,m.releaseDate,a.id,a.name
+                FROM movie m
+                LEFT JOIN actors a ON m.id=a.movie
+                WHERE id=?
+                LIMIT 100;
                 """;
-        return jdbcTemplate.query(sql,new MovieRowMapper(),id).stream().findFirst();
+        return jdbcTemplate.query(sql,new MovieRowMapper(actorRowMapper),id).stream().findFirst();
     }
     public int updateMovie(int id,String name,String releaseDate) {
         String sql= """
